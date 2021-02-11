@@ -28,10 +28,12 @@ RUN apt-get update && \
 # Adjust storage.conf to enable Fuse storage.
 RUN sed -i -e 's|^#mount_program|mount_program|g' -e '/additionalimage.*/a "/var/lib/shared",' /etc/containers/storage.conf
 
-# Install tern
+# Install tern and flask
 RUN pip3 install --upgrade pip && \
     pip3 install --no-cache-dir \
-    tern
+    tern flask
+
+COPY tern/web/ /web
 
 ENTRYPOINT ["tern", "--driver", "fuse"]
 CMD ["-h"]
